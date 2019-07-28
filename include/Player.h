@@ -13,6 +13,8 @@ class Player{
 		void init(SDL_Renderer* renderer);
 		void update();
 		void draw();
+		float getX();
+		float getY();
 	private:
 		void updateMovement();
 		void updateAim();

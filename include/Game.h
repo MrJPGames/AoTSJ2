@@ -13,8 +13,8 @@
 using namespace std;
 
 struct ObjectNode{
-	Object o,
-	ObjectNode* ptr
+	Object o;
+	ObjectNode *next;
 };
 
 class Game{
@@ -23,11 +23,13 @@ class Game{
 		void init(SDL_Renderer* r);
 		void update();
 		void draw();
+		void addObject();
 	private:
 		SDL_Renderer* renderer;
 		//FontManager fontManager;
 		Player player;
 		struct ObjectNode* objects = NULL;
+		TTF_Font* debug;
 };
 
 #endif

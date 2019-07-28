@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+*.pfs0
+*.nro
+*.elf
+*.nso

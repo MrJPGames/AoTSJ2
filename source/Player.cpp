@@ -50,6 +50,14 @@ void Player::updateAim(){
 }
 
 void Player::draw(){
-	renderColorText(renderer, debug, 0,0, "jPosL: (" + to_string(jPosL.dx) + "dx, " + to_string(jPosL.dy) + "dy)\njPosR: (" + to_string(jPosR.dx) + "dx, " + to_string(jPosR.dy) + "dy)\nmoveVector: (" + to_string(dx) + "dx, " + to_string(dy) + "dy)", {0,255,0});
+	//renderColorText(renderer, debug, 0,0, "jPosL: (" + to_string(jPosL.dx) + "dx, " + to_string(jPosL.dy) + "dy)\njPosR: (" + to_string(jPosR.dx) + "dx, " + to_string(jPosR.dy) + "dy)\nmoveVector: (" + to_string(dx) + "dx, " + to_string(dy) + "dy)", {0,255,0});
 	renderTextureRotated(renderer, sprite.texture, (int)x, (int)y, (angle/M_PI)*180);
+}
+
+float Player::getX(){
+	return x;
+}
+
+float Player::getY(){
+	return y;
 }
