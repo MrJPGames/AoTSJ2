@@ -26,10 +26,13 @@ class Game{
 		void addObject();
 	private:
 		SDL_Renderer* renderer;
+		SDL_Surface* surface;
 		//FontManager fontManager;
 		Player player;
 		struct ObjectNode* objects = NULL;
 		TTF_Font* debug;
+
+		image defaultObject;
 };
 
 #endif

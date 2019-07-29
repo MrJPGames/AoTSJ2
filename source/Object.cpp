@@ -4,12 +4,10 @@ Object::Object(){
 
 }
 
-void Object::init(SDL_Renderer* r, float d, float s, float sx, float sy){
+void Object::init(SDL_Renderer* r, SDL_Texture* texture , float d, float s, float sx, float sy){
 	renderer = r;
 
-	surface = IMG_Load("romfs:/assets/actors/objects/placeholder.png");
-	sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+	sprite.texture = texture;
 
 	direction = d;
 	speed = s;

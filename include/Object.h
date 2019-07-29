@@ -8,7 +8,7 @@
 class Object{
 	public:
 		Object();
-		void init(SDL_Renderer* renderer, float d, float s, float x, float y);
+		void init(SDL_Renderer* renderer, SDL_Texture* texture, float d, float s, float x, float y);
 		bool isDead();
 		void update();
 		void draw();

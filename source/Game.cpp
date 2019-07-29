@@ -11,8 +11,9 @@ void Game::init(SDL_Renderer* r){
 
 	debug = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 30);
 
-	Object obj;
-	obj.init(renderer, 2, 0, 100, 100);
+	surface = IMG_Load("romfs:/assets/actors/objects/placeholder.png");
+	defaultObject.texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
 }
 
 void Game::draw(){
@@ -34,7 +35,7 @@ void Game::draw(){
 }
 
 void Game::update(){
-	u32 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+	u32 kHeld = hidKeysHeld(CONTROLLER_P1_AUTO);
 
 	player.update();
 	ObjectNode *ptr = objects;
@@ -51,13 +52,13 @@ void Game::update(){
 		ptr = ptr->next;
 	}
 
-	if (kDown & KEY_X)
+	if (kHeld & KEY_X)
 		addObject();
 }
 
 void Game::addObject(){
 	Object obj;
-	obj.init(renderer, 0, 3, player.getX(), player.getY());
+	obj.init(renderer, defaultObject.texture, 0, 3, player.getX(), player.getY());
 
 
 	ObjectNode *o = new ObjectNode;
