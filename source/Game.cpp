@@ -18,11 +18,8 @@ void Game::init(SDL_Renderer* r){
 
 void Game::draw(){
 	int i = 0;
-	int j = 0;
 	ObjectNode *ptr = objects;
 	while (ptr != NULL){
-		if (ptr->o.isDead())
-			j++;
 		ptr->o.draw();
 		ptr = ptr->next;
 		i++;
@@ -31,7 +28,7 @@ void Game::draw(){
 	//Player on top
 	player.draw();
 	
-	renderColorText(renderer, debug, 0, 200, "Object count: " + to_string(i) + "\nDead: " + to_string(j), {0,255,0});
+	renderColorText(renderer, debug, 0, 200, "Object count: " + to_string(i), {0,255,0});
 }
 
 void Game::update(){

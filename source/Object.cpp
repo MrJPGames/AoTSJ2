@@ -25,7 +25,7 @@ void Object::update(){
 	y-=sin(direction)*speed;
 	angle+=0.1;
 
-	if (x < 0 || y < 0 || x > 1920 || y > 1080){
+	if (x < 0 || y < 0 || x > SCREEN_WIDTH || y > SCREEN_HEIGHT){
 		alive = false;
 	}
 }

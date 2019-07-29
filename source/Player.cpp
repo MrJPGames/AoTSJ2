@@ -34,14 +34,14 @@ void Player::updateMovement(){
 	y-=dy;
 	
 
-	if (x > 1920)
-		x -= 1920;
+	if (x > SCREEN_WIDTH)
+		x -= SCREEN_WIDTH;
 	if (x < 0)
-		x += 1920;
+		x += SCREEN_WIDTH;
 	if (y < 0)
-		y += 1080;
-	if (y > 1080)
-		y -= 1080;
+		y += SCREEN_HEIGHT;
+	if (y > SCREEN_HEIGHT)
+		y -= SCREEN_HEIGHT;
 }
 
 void Player::updateAim(){
