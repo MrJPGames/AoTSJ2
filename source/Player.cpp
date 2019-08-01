@@ -46,7 +46,11 @@ void Player::updateMovement(){
 
 void Player::updateAim(){
 	if (jPosR.dx != 0 || jPosR.dy != 0)
-		angle=atan2(jPosR.dx, jPosR.dy);
+		angle=atan2(-jPosR.dy, jPosR.dx);
+}
+
+float Player::getAim(){
+	return angle;
 }
 
 void Player::draw(){

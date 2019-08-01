@@ -21,7 +21,7 @@ void renderTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int destX, i
 	dest.w = w;
 	dest.h = h;
 
-	SDL_RenderCopyEx(renderer, tex, NULL, &dest, rotation-90, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, tex, NULL, &dest, rotation, NULL, SDL_FLIP_NONE);
 }
 
 void renderTextureScaled(SDL_Renderer* renderer, SDL_Texture *tex, int destX, int destY, double scale){

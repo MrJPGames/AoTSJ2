@@ -22,7 +22,7 @@ bool Object::isDead(){
 
 void Object::update(){
 	x+=cos(direction)*speed;
-	y-=sin(direction)*speed;
+	y+=sin(direction)*speed;
 	angle+=0.1;
 
 	if (x < 0 || y < 0 || x > SCREEN_WIDTH || y > SCREEN_HEIGHT){

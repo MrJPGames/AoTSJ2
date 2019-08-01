@@ -15,6 +15,7 @@ class Player{
 		void draw();
 		float getX();
 		float getY();
+		float getAim();
 	private:
 		void updateMovement();
 		void updateAim();
