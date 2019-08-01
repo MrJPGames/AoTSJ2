@@ -11,6 +11,10 @@ class Bullet{
         void update();
         void draw();
         bool isDead();
+		float getX();
+		float getY();
+		float getSize();
+        void kill();
     private:
         bool alive = true;
         SDL_Renderer* renderer;

@@ -5,6 +5,8 @@ Game::Game(){
 }
 
 void Game::init(SDL_Renderer* r){
+	srand(time(0));
+
 	player.init(r);
 
 	renderer = r;
@@ -18,6 +20,9 @@ void Game::init(SDL_Renderer* r){
 	surface = IMG_Load("romfs:/assets/actors/bullets/placeholder.png");
 	defaultBullet.texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
+
+	spawnTimer = EASY_TIMER_MAX;
+	maxSpawnTimer = EASY_TIMER_MAX;
 }
 
 void Game::draw(){
@@ -51,11 +56,54 @@ void Game::update(){
 	player.update();
 	updateObjects();
 	updateBullets();
+	checkObjectBulletCollision();
+	//checkObjectPlayerCollision();
 
-	if (kDown & KEY_X)
+	//Object spawning logic
+	spawnTimer--;
+	if (spawnTimer <= 0){
+		maxSpawnTimer -= EASY_TIMER_DEC;
+		if (maxSpawnTimer < EASY_TIMER_MIN){
+			maxSpawnTimer = EASY_TIMER_MIN;
+		}
+		spawnTimer = maxSpawnTimer;
 		addObject();
-	if (kDown & KEY_ZR)
+	}
+
+	//Shooting logic
+	if (kDown & KEY_ZR){
+		shootTimer = 0;
 		addBullet();
+	}
+	shootTimer++;
+	if (kHeld & KEY_ZR && (shootTimer % SHOOT_SPEED) == 0)
+		addBullet();
+}
+
+void Game::checkObjectBulletCollision(){
+	ObjectNode *ptr = objects;
+	while (ptr != NULL){
+		float ox = ptr->o.getX();
+		float oy = ptr->o.getY();
+		float os = ptr->o.getSize();
+
+		BulletNode *bPtr = bullets;
+		while (bPtr != NULL){
+			float bx = bPtr->b.getX();
+			float by = bPtr->b.getY();
+			float bs = bPtr->b.getSize();
+			if ((ox-bx) * (ox-bx) + (oy-by) * (oy-by) < (os+bs) * (os+bs)){
+				bPtr->b.kill();
+				ptr->o.kill();
+				//TODO: Spawn explosion fx
+				bPtr = NULL;
+				break;
+			}else{
+				bPtr = bPtr->next;
+			}
+		}
+		ptr = ptr->next;
+	}
 }
 
 void Game::updateObjects(){
@@ -68,6 +116,7 @@ void Game::updateObjects(){
 				prev->next = ptr->next;
 			else
 				objects = ptr->next;
+			delete ptr;
 		}
 		prev = ptr;
 		ptr = ptr->next;
@@ -84,6 +133,7 @@ void Game::updateBullets(){
 				prev->next = ptr->next;
 			else
 				bullets = ptr->next;
+			delete ptr;
 		}
 		prev = ptr;
 		ptr = ptr->next;
@@ -91,8 +141,25 @@ void Game::updateBullets(){
 }
 
 void Game::addObject(){
+	float x, y;
+	switch(rand() % 4){
+		case 0:
+			x = 0;
+			y = rand() % 1080;
+			break;
+		case 1:
+			x = rand() % 1920;
+			y = 0;
+		case 2:
+			x = 1920;
+			y = rand() % 1080;
+			break;
+		default:
+			x = rand() % 1920;
+			y = 1080;
+	}
 	Object obj;
-	obj.init(renderer, defaultObject.texture, 0, 3, player.getX(), player.getY());
+	obj.init(renderer, defaultObject.texture, 3, x, y, player.getX(), player.getY());
 
 
 	ObjectNode *o = new ObjectNode;
@@ -104,7 +171,7 @@ void Game::addObject(){
 
 void Game::addBullet(){
 	Bullet obj;
-	obj.init(renderer, defaultBullet.texture, player.getAim(), 10, player.getX(), player.getY());
+	obj.init(renderer, defaultBullet.texture, player.getAim(), 15, player.getX(), player.getY());
 
 
 	BulletNode *b = new BulletNode;

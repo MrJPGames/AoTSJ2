@@ -23,10 +23,26 @@ void Bullet::update(){
 	}
 }
 
-void Bullet::draw(){
-	renderTextureRotated(renderer, sprite.texture, x, y, direction);
-}
-
 bool Bullet::isDead(){
     return !alive;
+}
+
+float Bullet::getX(){
+	return x;
+}
+
+float Bullet::getY(){
+	return y;
+}
+
+float Bullet::getSize(){
+	return 32;
+}
+
+void Bullet::kill(){
+    alive = false;
+}
+
+void Bullet::draw(){
+	renderTextureRotated(renderer, sprite.texture, x, y, (direction/M_PI)*180);
 }
