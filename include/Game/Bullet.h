@@ -3,11 +3,12 @@
 
 #include "GFX.h"
 #include "main.h"
+#include "TextureManager.h"
 
 class Bullet{
     public:
         Bullet();
-        void init(SDL_Renderer* renderer, SDL_Texture* texture, float d, float s, float x, float y);
+        void init(SDL_Renderer* renderer, TextureManager* tm, float d, float s, float x, float y);
         void update();
         void draw();
         bool isDead();

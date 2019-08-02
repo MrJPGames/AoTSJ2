@@ -4,11 +4,12 @@
 #include <switch.h>
 #include "GFX.h"
 #include "main.h"
+#include "TextureManager.h"
 
 class Object{
 	public:
 		Object();
-		void init(SDL_Renderer* renderer, SDL_Texture* texture, float s, float x, float y, float tx, float ty);
+		void init(SDL_Renderer* renderer, TextureManager* tm, float s, float x, float y, float tx, float ty);
 		bool isDead();
 		void update();
 		void draw();

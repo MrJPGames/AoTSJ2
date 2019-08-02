@@ -1,13 +1,13 @@
-#include "Object.h"
+#include "Game/Object.h"
 
 Object::Object(){
 
 }
 
-void Object::init(SDL_Renderer* r, SDL_Texture* texture , float s, float sx, float sy, float tx, float ty){
+void Object::init(SDL_Renderer* r, TextureManager* tm , float s, float sx, float sy, float tx, float ty){
 	renderer = r;
 
-	sprite.texture = texture;
+	sprite = tm->getTexture("romfs:/assets/actors/objects/placeholder.png");
 
 	float dx = sx-tx;
 	float dy = sy-ty;

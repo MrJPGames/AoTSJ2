@@ -4,9 +4,9 @@ Bullet::Bullet(){
 
 }
 
-void Bullet::init(SDL_Renderer* r, SDL_Texture* texture, float d, float s, float sx, float sy){
+void Bullet::init(SDL_Renderer* r, TextureManager *tm, float d, float s, float sx, float sy){
     renderer = r;
-    sprite.texture = texture;
+    sprite = tm->getTexture("romfs:/assets/actors/bullets/placeholder.png");
 
     speed = s;
     direction = d;

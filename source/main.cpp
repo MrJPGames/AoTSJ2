@@ -6,6 +6,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_TTF.h>
 #include "GFX.h"
+#include "TextureManager.h"
 #include "Game/Game.h"
 #include "main.h"
 
@@ -26,6 +27,8 @@ TTF_Font* font;
 TTF_Font* bigFont;
 
 Game game;
+
+TextureManager tm;
 
 void draw(){
 	SDL_RenderClear(renderer);
@@ -68,7 +71,9 @@ int main(int argc, char **argv)
 	background.texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
-	game.init(renderer);
+	tm.init(renderer);
+
+	game.init(renderer, &tm);
 
 	font = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 48);
 	bigFont = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 72);

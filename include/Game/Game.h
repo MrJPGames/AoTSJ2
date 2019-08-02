@@ -6,6 +6,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_TTF.h>
 #include "GFX.h"
+#include "TextureManager.h"
 
 #include "Game/Player.h"
 #include "Game/Object.h"
@@ -32,7 +33,7 @@ struct BulletNode{
 class Game{
 	public:
 		Game();
-		void init(SDL_Renderer* r);
+		void init(SDL_Renderer* r, TextureManager* t);
 		void update();
 		void draw();
 	private:
@@ -45,7 +46,6 @@ class Game{
 		void addBullet();
 
 		SDL_Renderer* renderer;
-		SDL_Surface* surface;
 		//FontManager fontManager;
 		Player player;
 		ObjectNode *objects = NULL;
@@ -56,8 +56,7 @@ class Game{
 		
 		int shootTimer = 0;
 
-		image defaultObject;
-		image defaultBullet;
+		TextureManager* textureManager;
 };
 
 #endif

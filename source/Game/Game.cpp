@@ -4,7 +4,7 @@ Game::Game(){
 
 }
 
-void Game::init(SDL_Renderer* r){
+void Game::init(SDL_Renderer* r, TextureManager* t){
 	srand(time(0));
 
 	player.init(r);
@@ -13,13 +13,7 @@ void Game::init(SDL_Renderer* r){
 
 	debug = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 30);
 
-	surface = IMG_Load("romfs:/assets/actors/objects/placeholder.png");
-	defaultObject.texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("romfs:/assets/actors/bullets/placeholder.png");
-	defaultBullet.texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+	textureManager = t;
 
 	spawnTimer = EASY_TIMER_MAX;
 	maxSpawnTimer = EASY_TIMER_MAX;
@@ -165,7 +159,7 @@ void Game::addObject(){
 			y = 1080;
 	}
 	Object obj;
-	obj.init(renderer, defaultObject.texture, 3, x, y, player.getX(), player.getY());
+	obj.init(renderer, textureManager, 3, x, y, player.getX(), player.getY());
 
 
 	ObjectNode *o = new ObjectNode;
@@ -177,7 +171,7 @@ void Game::addObject(){
 
 void Game::addBullet(){
 	Bullet obj;
-	obj.init(renderer, defaultBullet.texture, player.getAim(), 15, player.getX(), player.getY());
+	obj.init(renderer, textureManager, player.getAim(), 15, player.getX(), player.getY());
 
 
 	BulletNode *b = new BulletNode;
