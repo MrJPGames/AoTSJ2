@@ -112,14 +112,17 @@ void Game::updateObjects(){
 	while (ptr != NULL){
 		ptr->o.update();
 		if (ptr->o.isDead()){
-			if (prev != NULL)
-				prev->next = ptr->next;
-			else
-				objects = ptr->next;
+			ObjectNode *next = ptr->next;
 			delete ptr;
+			if (prev != NULL)
+				prev->next = next;
+			else
+				objects = next;
+			ptr = next;
+		}else{
+			prev = ptr;
+			ptr = ptr->next;
 		}
-		prev = ptr;
-		ptr = ptr->next;
 	}
 }
 
@@ -129,14 +132,17 @@ void Game::updateBullets(){
 	while (ptr != NULL){
 		ptr->b.update();
 		if (ptr->b.isDead()){
-			if (prev != NULL)
-				prev->next = ptr->next;
-			else
-				bullets = ptr->next;
+			BulletNode *next = ptr->next;
 			delete ptr;
+			if (prev != NULL)
+				prev->next = next;
+			else
+				bullets = next;
+			ptr = next;
+		}else{
+			prev = ptr;
+			ptr = ptr->next;
 		}
-		prev = ptr;
-		ptr = ptr->next;
 	}
 }
 
