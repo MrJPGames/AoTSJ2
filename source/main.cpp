@@ -7,6 +7,7 @@
 #include <SDL2/SDL_TTF.h>
 #include "GFX.h"
 #include "TextureManager.h"
+#include "AudioPlayer.h"
 #include "Game/Game.h"
 #include "main.h"
 
@@ -29,6 +30,7 @@ TTF_Font* bigFont;
 Game game;
 
 TextureManager tm;
+AudioPlayer ap;
 
 void draw(){
 	SDL_RenderClear(renderer);
@@ -58,6 +60,8 @@ int main(int argc, char **argv)
 	romfsInit();
 	
 	SDL_Init(SDL_INIT_EVERYTHING);
+
+	Mix_Init(MIX_INIT_MP3);
 	// Initialize
 	IMG_Init(IMG_INIT_PNG);
 	TTF_Init();
@@ -73,7 +77,11 @@ int main(int argc, char **argv)
 
 	tm.init(renderer);
 
-	game.init(renderer, &tm);
+	ap.loadMusic("romfs:/assets/music/placeholder.mp3");
+	ap.loadWAV("romfs:/assets/sfx/shoot.wav");
+	ap.loadWAV("romfs:/assets/sfx/explosion.wav");
+
+	game.init(renderer, &tm, &ap);
 
 	font = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 48);
 	bigFont = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 72);

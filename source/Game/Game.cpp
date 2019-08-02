@@ -4,7 +4,7 @@ Game::Game(){
 
 }
 
-void Game::init(SDL_Renderer* r, TextureManager* t){
+void Game::init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp){
 	srand(time(0));
 
 	player.init(r);
@@ -17,6 +17,9 @@ void Game::init(SDL_Renderer* r, TextureManager* t){
 
 	spawnTimer = EASY_TIMER_MAX;
 	maxSpawnTimer = EASY_TIMER_MAX;
+
+	audioPlayer = mp;
+	audioPlayer->playMusic("romfs:/assets/music/placeholder.mp3");
 }
 
 void Game::draw(){
@@ -90,6 +93,7 @@ void Game::checkObjectBulletCollision(){
 				bPtr->b.kill();
 				ptr->o.kill();
 				//TODO: Spawn explosion fx
+				audioPlayer->playWAV("romfs:/assets/sfx/explosion.wav");
 				bPtr = NULL;
 				break;
 			}else{
@@ -179,4 +183,6 @@ void Game::addBullet(){
 	b->next = bullets;
 
 	bullets = b;
+
+	audioPlayer->playWAV("romfs:/assets/sfx/shoot.wav");
 }

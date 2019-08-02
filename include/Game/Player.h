@@ -19,6 +19,7 @@ class Player{
 	private:
 		void updateMovement();
 		void updateAim();
+		int sign(int x);
 
 		SDL_Renderer* renderer;
 		float x = 960, y = 540, playerSpeed = 12, angle = 0;

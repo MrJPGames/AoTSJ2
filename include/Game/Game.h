@@ -7,6 +7,7 @@
 #include <SDL2/SDL_TTF.h>
 #include "GFX.h"
 #include "TextureManager.h"
+#include "AudioPlayer.h"
 
 #include "Game/Player.h"
 #include "Game/Object.h"
@@ -33,7 +34,7 @@ struct BulletNode{
 class Game{
 	public:
 		Game();
-		void init(SDL_Renderer* r, TextureManager* t);
+		void init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp);
 		void update();
 		void draw();
 	private:
@@ -57,6 +58,7 @@ class Game{
 		int shootTimer = 0;
 
 		TextureManager* textureManager;
+		AudioPlayer* audioPlayer;
 };
 
 #endif
