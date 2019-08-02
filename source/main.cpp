@@ -6,7 +6,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_TTF.h>
 #include "GFX.h"
-#include "Game.h"
+#include "Game/Game.h"
 #include "main.h"
 
 //Sets the current mode (state) of the game

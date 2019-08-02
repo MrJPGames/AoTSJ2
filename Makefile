@@ -31,9 +31,9 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 TARGET		  := AoTSJ2
 BUILD		  := build
-SOURCES		  := source
+SOURCES		  := source source/Game
 DATA		  := data
-INCLUDES	  := include
+INCLUDES	  := include include/Game
 EXEFS_SRC	  := exefs_src
 ROMFS         := romfs
 APP_TITLE     := Mr Top Hat in Attack of the Space Junk 2!

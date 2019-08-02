@@ -7,9 +7,9 @@
 #include <SDL2/SDL_TTF.h>
 #include "GFX.h"
 
-#include "Player.h"
-#include "Object.h"
-#include "Bullet.h"
+#include "Game/Player.h"
+#include "Game/Object.h"
+#include "Game/Bullet.h"
 
 using namespace std;
 
