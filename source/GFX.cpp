@@ -1,63 +1,63 @@
 #include "GFX.h"
 
-void renderTexture(SDL_Renderer* renderer, SDL_Texture *tex, int destX, int destY){
+void renderTexture(SDL_Renderer* renderer, image tex, int destX, int destY){
     int w, h;
-    SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+    SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
 	dest.x = destX;
 	dest.y = destY;
     dest.w = w;
     dest.h = h;
 
-	SDL_RenderCopy(renderer, tex, NULL, &dest);
+	SDL_RenderCopy(renderer, tex.texture, NULL, &dest);
 }
 
-void renderTextureRotated(SDL_Renderer* renderer, SDL_Texture* tex, int destX, int destY, double rotation){
+void renderTextureRotated(SDL_Renderer* renderer, image tex, int destX, int destY, double rotation){
     int w, h;
-    SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+    SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
 	dest.x = destX-w/2;
 	dest.y = destY-h/2;
 	dest.w = w;
 	dest.h = h;
 
-	SDL_RenderCopyEx(renderer, tex, NULL, &dest, rotation, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, tex.texture, NULL, &dest, rotation, NULL, SDL_FLIP_NONE);
 }
 
-void renderTextureScaled(SDL_Renderer* renderer, SDL_Texture *tex, int destX, int destY, double scale){
+void renderTextureScaled(SDL_Renderer* renderer, image tex, int destX, int destY, double scale){
     int w, h;
-    SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+    SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
 	dest.x = destX;
 	dest.y = destY;
 	dest.w = round(w*scale);
 	dest.h = round(h*scale);
 
-	SDL_RenderCopy(renderer, tex, NULL, &dest);
+	SDL_RenderCopy(renderer, tex.texture, NULL, &dest);
 }
 
-void renderTextureScaledRotated(SDL_Renderer* renderer, SDL_Texture *tex, int destX, int destY, double scale, double rotation){	
+void renderTextureScaledRotated(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, double rotation){	
     int w, h;
-    SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+    SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
 	dest.x = destX-w/2;
 	dest.y = destY-h/2;
 	dest.w = round(w*scale);
 	dest.h = round(h*scale);
 
-	SDL_RenderCopyEx(renderer, tex, NULL, &dest, rotation-90, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, tex.texture, NULL, &dest, rotation-90, NULL, SDL_FLIP_NONE);
 }
 
-void renderTextureCentered(SDL_Renderer* renderer, SDL_Texture *tex, int destX, int destY){
+void renderTextureCentered(SDL_Renderer* renderer, image tex, int destX, int destY){
 	int w, h;
-    SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+    SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
 	dest.x = destX-w/2;
 	dest.y = destY-h/2;
     dest.w = w;
     dest.h = h;
 
-	SDL_RenderCopy(renderer, tex, NULL, &dest);
+	SDL_RenderCopy(renderer, tex.texture, NULL, &dest);
 }
 
 void renderFadeOverlay(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a){

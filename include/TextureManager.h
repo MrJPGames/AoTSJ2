@@ -7,7 +7,7 @@
 #include <SDL2/SDL_TTF.h>
 #include <map>
 
-#include "main.h"
+#include "GFX.h"
 
 using namespace std;
 

@@ -44,5 +44,5 @@ void Bullet::kill(){
 }
 
 void Bullet::draw(){
-	renderTextureRotated(renderer, sprite.texture, x, y, (direction/M_PI)*180);
+	renderTextureRotated(renderer, sprite, x, y, (direction/M_PI)*180);
 }

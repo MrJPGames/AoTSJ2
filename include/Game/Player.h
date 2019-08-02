@@ -21,7 +21,8 @@ class Player{
 		void updateAim();
 
 		SDL_Renderer* renderer;
-		float x = 960, y = 540, dx=0, dy=0, playerSpeed = 12, angle = 0;
+		float x = 960, y = 540, playerSpeed = 12, angle = 0;
+		float vx = 0, vy = 0, gvx = 0, gvy = 0; //Velocity and goal velocity
 		int upgrades[UPGRADE_COUNT];
 		JoystickPosition jPosL, jPosR;
 		image sprite;

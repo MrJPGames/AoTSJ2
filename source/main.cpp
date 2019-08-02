@@ -32,7 +32,7 @@ TextureManager tm;
 
 void draw(){
 	SDL_RenderClear(renderer);
-	renderTexture(renderer, background.texture, 0, 0);
+	renderTexture(renderer, background, 0, 0);
 	game.draw();
 	/*
 	switch(mode){

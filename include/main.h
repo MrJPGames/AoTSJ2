@@ -11,8 +11,4 @@
 
 using namespace std;
 
-typedef struct {
-	SDL_Texture * texture;
-}image;
-
 #endif

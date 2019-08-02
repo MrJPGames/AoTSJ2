@@ -52,5 +52,5 @@ void Object::kill(){
 }
 
 void Object::draw(){
-	renderTextureRotated(renderer, sprite.texture, x, y, angle);
+	renderTextureRotated(renderer, sprite, x, y, angle);
 }
