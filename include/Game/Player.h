@@ -16,6 +16,7 @@ class Player{
 		float getX();
 		float getY();
 		float getAim();
+		int getLives();
 	private:
 		void updateMovement();
 		void updateAim();
@@ -29,6 +30,7 @@ class Player{
 		image sprite;
 		SDL_Surface* surface;
 		TTF_Font* debug;
+		int lives = 3;
 };
 
 #endif

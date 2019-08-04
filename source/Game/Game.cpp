@@ -11,7 +11,7 @@ void Game::init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp){
 
 	renderer = r;
 
-	debug = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 30);
+	font = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 45);
 
 	textureManager = t;
 
@@ -28,6 +28,8 @@ void Game::draw(){
 
 	//Player on top
 	player.draw();
+
+	drawHUD();
 }
 
 void Game::drawObjects(){
@@ -44,6 +46,10 @@ void Game::drawBullets(){
 		ptr->b.draw();
 		ptr = ptr->next;
 	}
+}
+
+void Game::drawHUD(){
+	renderColorText(renderer, font, 40, 40, "Score: " + to_string(score) + "\nLives: " + to_string(player.getLives()), {255,255,255});
 }
 
 void Game::update(){
@@ -94,6 +100,7 @@ void Game::checkObjectBulletCollision(){
 				ptr->o.kill();
 				//TODO: Spawn explosion fx
 				audioPlayer->playWAV("romfs:/assets/sfx/explosion.wav");
+				score += 1000;
 				bPtr = NULL;
 				break;
 			}else{

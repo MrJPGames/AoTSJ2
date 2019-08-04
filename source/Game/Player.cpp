@@ -76,3 +76,7 @@ float Player::getX(){
 float Player::getY(){
 	return y;
 }
+
+int Player::getLives(){
+	return lives;
+}

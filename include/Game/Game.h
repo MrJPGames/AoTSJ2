@@ -43,6 +43,7 @@ class Game{
 		void updateBullets();
 		void drawObjects();
 		void drawBullets();
+		void drawHUD();
 		void addObject();
 		void addBullet();
 
@@ -51,11 +52,13 @@ class Game{
 		Player player;
 		ObjectNode *objects = NULL;
 		BulletNode *bullets = NULL;
-		TTF_Font* debug;
+		TTF_Font* font;
 		int spawnTimer = 0;
 		int maxSpawnTimer = 0;
 		
 		int shootTimer = 0;
+
+		int score = 0;
 
 		TextureManager* textureManager;
 		AudioPlayer* audioPlayer;
