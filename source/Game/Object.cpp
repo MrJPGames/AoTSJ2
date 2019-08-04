@@ -14,8 +14,8 @@ void Object::init(SDL_Renderer* r, TextureManager* tm , float s, float sx, float
 
 	direction = atan2(-dy, -dx);
 	speed = s;
-	angle = (rand() % 3600)/10;
-	angle_change = (float)0.5-(rand() % 100)/(float)1000;
+	angle = (rand() % 3600)/10.0f;
+	angle_change = (100-(rand() % 200))/100.0f;
 
 	x = sx;
 	y = sy;
