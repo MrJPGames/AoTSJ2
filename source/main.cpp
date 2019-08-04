@@ -29,7 +29,7 @@ TTF_Font* bigFont;
 
 Game game;
 
-TextureManager tm;
+TextureManager texManager;
 AudioPlayer ap;
 
 void draw(){
@@ -75,13 +75,13 @@ int main(int argc, char **argv)
 	background.texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
-	tm.init(renderer);
+	texManager.init(renderer);
 
 	ap.loadMusic("romfs:/assets/music/placeholder.mp3");
 	ap.loadWAV("romfs:/assets/sfx/shoot.wav");
 	ap.loadWAV("romfs:/assets/sfx/explosion.wav");
 
-	game.init(renderer, &tm, &ap);
+	game.init(renderer, &texManager, &ap);
 
 	font = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 48);
 	bigFont = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 72);

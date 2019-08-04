@@ -1,13 +1,11 @@
 #include "Game/Object.h"
 
-Object::Object(){
-
-}
+Object::Object(){}
 
 void Object::init(SDL_Renderer* r, TextureManager* tm , float s, float sx, float sy, float tx, float ty){
 	renderer = r;
 
-	sprite = tm->getTexture("romfs:/assets/actors/objects/placeholder.png");
+	sprite = tm->getRandomTexture("romfs:/assets/actors/objects/");
 
 	float dx = sx-tx;
 	float dy = sy-ty;
@@ -16,6 +14,11 @@ void Object::init(SDL_Renderer* r, TextureManager* tm , float s, float sx, float
 	speed = s;
 	angle = (rand() % 3600)/10.0f;
 	angle_change = (100-(rand() % 200))/100.0f;
+	scale = (750+(rand() % 500))/1000.0f;
+	//Box shaped/circular objects are assumed!!
+	int w;
+    SDL_QueryTexture(sprite.texture, NULL, NULL, &w, NULL);
+	radius = w >> 1;
 
 	x = sx;
 	y = sy;
@@ -44,7 +47,7 @@ float Object::getY(){
 }
 
 float Object::getSize(){
-	return 75;
+	return radius*scale;
 }
 
 void Object::kill(){
@@ -52,5 +55,5 @@ void Object::kill(){
 }
 
 void Object::draw(){
-	renderTextureRotated(renderer, sprite, x, y, angle);
+	renderTextureScaledRotated(renderer, sprite, x, y, scale, angle);
 }

@@ -6,7 +6,7 @@ Bullet::Bullet(){
 
 void Bullet::init(SDL_Renderer* r, TextureManager *tm, float d, float s, float sx, float sy){
     renderer = r;
-    sprite = tm->getTexture("romfs:/assets/actors/bullets/placeholder.png");
+    sprite = tm->getRandomTexture("romfs:/assets/actors/bullets/");
 
     speed = s;
     direction = d;

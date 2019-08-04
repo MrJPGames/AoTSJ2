@@ -24,6 +24,8 @@ class Object{
 		SDL_Surface* surface;
 		bool alive = true;
 		float angle_change=0;
+		float scale = 0;
+		int radius = 0;
 };
 
 #endif

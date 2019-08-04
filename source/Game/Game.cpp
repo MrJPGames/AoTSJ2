@@ -30,6 +30,9 @@ void Game::draw(){
 	player.draw();
 
 	drawHUD();
+
+	if (objects != NULL)
+		renderColorText(renderer, font, 40, 200, "Object size: " + to_string(objects->o.getSize()), {0, 255, 0});
 }
 
 void Game::drawObjects(){
