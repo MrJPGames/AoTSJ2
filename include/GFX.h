@@ -15,6 +15,7 @@ void renderTexture(SDL_Renderer* renderer, image tex, int destX, int destY);
 void renderTextureRotated(SDL_Renderer* renderer, image tex, int destX, int destY, double rotation);
 void renderTextureScaled(SDL_Renderer* renderer, image tex, int destX, int destY, double scale);
 void renderTextureScaledRotated(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, double rotation);
+void renderTextureScaledRotatedAlpha(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, double rotation, double alpha);
 void renderTextureCentered(SDL_Renderer* renderer, image tex, int x, int y);
 void renderText(SDL_Renderer* renderer, TTF_Font* font, int x, int y, string s);
 void renderColorText(SDL_Renderer* renderer, TTF_Font* font, int x, int y, string s, SDL_Color c);

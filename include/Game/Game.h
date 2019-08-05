@@ -12,6 +12,7 @@
 #include "Game/Player.h"
 #include "Game/Object.h"
 #include "Game/Bullet.h"
+#include "Game/Particle.h"
 
 using namespace std;
 
@@ -31,6 +32,11 @@ struct BulletNode{
 	BulletNode *next;
 };
 
+struct ParticleNode{
+	Particle p;
+	ParticleNode *next;
+};
+
 class Game{
 	public:
 		Game();
@@ -41,17 +47,21 @@ class Game{
 		void checkObjectBulletCollision();
 		void updateObjects();
 		void updateBullets();
+		void updateParticles();
 		void drawObjects();
 		void drawBullets();
+		void drawParticles();
 		void drawHUD();
 		void addObject();
 		void addBullet();
+		void addParticle(float x, float y);
 
 		SDL_Renderer* renderer;
 		//FontManager fontManager;
 		Player player;
 		ObjectNode *objects = NULL;
 		BulletNode *bullets = NULL;
+		ParticleNode *particles = NULL;
 		TTF_Font* font;
 		int spawnTimer = 0;
 		int maxSpawnTimer = 0;

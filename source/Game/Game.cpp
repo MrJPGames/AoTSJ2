@@ -24,6 +24,7 @@ void Game::init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp){
 
 void Game::draw(){
 	drawObjects();
+	drawParticles();
 	drawBullets();
 
 	//Player on top
@@ -51,6 +52,14 @@ void Game::drawBullets(){
 	}
 }
 
+void Game::drawParticles(){
+	ParticleNode *ptr = particles;
+	while(ptr != NULL){
+		ptr->p.draw();
+		ptr = ptr->next;
+	}
+}
+
 void Game::drawHUD(){
 	renderColorText(renderer, font, 40, 40, "Score: " + to_string(score) + "\nLives: " + to_string(player.getLives()), {255,255,255});
 }
@@ -62,6 +71,7 @@ void Game::update(){
 	player.update();
 	updateObjects();
 	updateBullets();
+	updateParticles();
 	checkObjectBulletCollision();
 	//checkObjectPlayerCollision();
 
@@ -77,12 +87,12 @@ void Game::update(){
 	}
 
 	//Shooting logic
-	if (kDown & KEY_ZR){
+	if (kDown & KEY_ZR || kDown & KEY_ZL){
 		shootTimer = 0;
 		addBullet();
 	}
 	shootTimer++;
-	if (kHeld & KEY_ZR && (shootTimer % SHOOT_SPEED) == 0)
+	if ((kHeld & KEY_ZR || kHeld & KEY_ZL) && (shootTimer % SHOOT_SPEED) == 0)
 		addBullet();
 }
 
@@ -148,6 +158,27 @@ void Game::updateBullets(){
 				bullets = next;
 			ptr = next;
 		}else{
+			addParticle(ptr->b.getX(),ptr->b.getY());
+			prev = ptr;
+			ptr = ptr->next;
+		}
+	}
+}
+
+void Game::updateParticles(){
+	ParticleNode *ptr = particles;
+	ParticleNode *prev = NULL;
+	while (ptr != NULL){
+		ptr->p.update();
+		if (ptr->p.isDead()){
+			ParticleNode *next = ptr->next;
+			delete ptr;
+			if (prev != NULL)
+				prev->next = next;
+			else
+				particles = next;
+			ptr = next;
+		}else{
 			prev = ptr;
 			ptr = ptr->next;
 		}
@@ -195,4 +226,16 @@ void Game::addBullet(){
 	bullets = b;
 
 	audioPlayer->playWAV("romfs:/assets/sfx/shoot.wav");
+}
+
+void Game::addParticle(float x, float y){
+	Particle obj;
+	obj.init(renderer, textureManager, "romfs:/assets/particles/trail.png", x, y, 30, 1, 0, 4, 0, 2);
+
+
+	ParticleNode *p = new ParticleNode;
+	p->p = obj;
+	p->next = particles;
+
+	particles = p;
 }

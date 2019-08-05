@@ -48,6 +48,20 @@ void renderTextureScaledRotated(SDL_Renderer* renderer, image tex, int destX, in
 	SDL_RenderCopyEx(renderer, tex.texture, NULL, &dest, rotation, NULL, SDL_FLIP_NONE);
 }
 
+void renderTextureScaledRotatedAlpha(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, double rotation, double alpha){
+	int w, h;
+    SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
+	SDL_Rect dest;
+	dest.x = destX-w/2;
+	dest.y = destY-h/2;
+	dest.w = round(w*scale);
+	dest.h = round(h*scale);
+
+	SDL_SetTextureAlphaMod(tex.texture, round(alpha*255));
+
+	SDL_RenderCopyEx(renderer, tex.texture, NULL, &dest, rotation, NULL, SDL_FLIP_NONE);
+}
+
 void renderTextureCentered(SDL_Renderer* renderer, image tex, int destX, int destY){
 	int w, h;
     SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
