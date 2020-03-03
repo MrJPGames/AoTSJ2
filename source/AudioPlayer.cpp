@@ -2,6 +2,7 @@
 
 AudioPlayer::AudioPlayer(){
     Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
+    Mix_VolumeMusic(MIX_MAX_VOLUME/2);
 }
 
 void AudioPlayer::loadMusic(string path){

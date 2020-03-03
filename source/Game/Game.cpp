@@ -109,10 +109,9 @@ void Game::checkObjectBulletCollision(){
 			float by = bPtr->b.getY();
 			float bs = bPtr->b.getSize();
 			if ((ox-bx) * (ox-bx) + (oy-by) * (oy-by) < (os+bs) * (os+bs)){
+				objectExplodes(&ptr->o);
 				bPtr->b.kill();
 				ptr->o.kill();
-				//TODO: Spawn explosion fx
-				audioPlayer->playWAV("romfs:/assets/sfx/explosion.wav");
 				score += 1000;
 				bPtr = NULL;
 				break;
@@ -121,6 +120,24 @@ void Game::checkObjectBulletCollision(){
 			}
 		}
 		ptr = ptr->next;
+	}
+}
+
+//Plays explosion sfx, creates particles associated with explosion
+void Game::objectExplodes(Object* o){
+	audioPlayer->playWAV("romfs:/assets/sfx/explosion.wav");
+
+	image i = o->getTexture();
+	int w, h;
+    SDL_QueryTexture(sprite.texture, NULL, NULL, &w, &h);
+	float s = o->getSize();
+
+	for (int x = 0; x < 8; x++){
+		for (int y=0; y<8; y++){
+			Particle obj;
+			obj.init(renderer, textureManager, "romfs:/assets/particles/trail.png", ptr->b.getX(),ptr->b.getY(), 30, 1, 0, 4, 0, 2);
+			addParticle(obj);
+		}
 	}
 }
 
@@ -158,7 +175,9 @@ void Game::updateBullets(){
 				bullets = next;
 			ptr = next;
 		}else{
-			addParticle(ptr->b.getX(),ptr->b.getY());
+			Particle obj;
+			obj.init(renderer, textureManager, "romfs:/assets/particles/trail.png", ptr->b.getX(),ptr->b.getY(), 30, 1, 0, 4, 0, 2);
+			addParticle(obj);
 			prev = ptr;
 			ptr = ptr->next;
 		}
@@ -228,11 +247,7 @@ void Game::addBullet(){
 	audioPlayer->playWAV("romfs:/assets/sfx/shoot.wav");
 }
 
-void Game::addParticle(float x, float y){
-	Particle obj;
-	obj.init(renderer, textureManager, "romfs:/assets/particles/trail.png", x, y, 30, 1, 0, 4, 0, 2);
-
-
+void Game::addParticle(Particle obj){
 	ParticleNode *p = new ParticleNode;
 	p->p = obj;
 	p->next = particles;

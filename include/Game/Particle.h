@@ -10,6 +10,7 @@ class Particle{
         Particle();
         void init(SDL_Renderer* renderer, TextureManager* tm, string path, float sx, float sy, int duration, float direction, float speed, float startAlpha, float endAlpha, float startScale, float endScale, float angleSpeed);
         void init(SDL_Renderer* renderer, TextureManager* tm, string path, float sx, float sy, int duration,float startAlpha, float endAlpha, float startScale, float endScale, float angleSpeed);
+        void init(SDL_Renderer* renderer, image i, SDL_Rect tRect, float sx, float sy, int duration,float startAlpha, float endAlpha, float startScale, float endScale, float angleSpeed);
         void update();
         void draw();
         bool isDead();
@@ -29,6 +30,7 @@ class Particle{
         float scale = 0;
         float angle = 0;
         float alpha = 0;
+        SDL_Rect texRect = NULL;
 };
 
 #endif

@@ -15,6 +15,7 @@ class Object{
 		void draw();
 		float getX();
 		float getY();
+		image getTexture();
 		float getSize();
 		void kill();
 	private:

@@ -24,6 +24,10 @@ void Object::init(SDL_Renderer* r, TextureManager* tm , float s, float sx, float
 	y = sy;
 }
 
+image Object::getTexture(){
+	return sprite;
+}
+
 bool Object::isDead(){
 	return !alive;
 }
