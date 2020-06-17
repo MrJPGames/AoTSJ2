@@ -17,6 +17,9 @@ class Object{
 		float getY();
 		image getTexture();
 		float getSize();
+		float getScale();
+		float getAngle();
+		float getRadAngle();
 		void kill();
 	private:
 		SDL_Renderer* renderer;

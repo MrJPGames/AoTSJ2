@@ -54,7 +54,9 @@ class Game{
 		void drawHUD();
 		void addObject();
 		void addBullet();
-		void addParticle(float x, float y);
+		void addParticle(Particle p);
+
+		void objectExplodes(Object* o);
 
 		SDL_Renderer* renderer;
 		//FontManager fontManager;

@@ -129,14 +129,46 @@ void Game::objectExplodes(Object* o){
 
 	image i = o->getTexture();
 	int w, h;
-    SDL_QueryTexture(sprite.texture, NULL, NULL, &w, &h);
-	float s = o->getSize();
+    SDL_QueryTexture(i.texture, NULL, NULL, &w, &h);
+	float s = o->getScale();
+	float a = o->getAngle();
 
 	for (int x = 0; x < 8; x++){
 		for (int y=0; y<8; y++){
-			Particle obj;
-			obj.init(renderer, textureManager, "romfs:/assets/particles/trail.png", ptr->b.getX(),ptr->b.getY(), 30, 1, 0, 4, 0, 2);
-			addParticle(obj);
+			SDL_Rect rect;
+			rect.x = x*(w/8);
+			rect.y = y*(h/8);
+			rect.w = w/8;
+			rect.h = h/8;
+
+			int oX = o->getX();
+			int oY = o->getY();
+			int pX = oX-(s*w/2)+(x*(s*w/8)+(w/16)); //These do not take rotation of the sprite into account!
+			int pY = oY-(s*h/2)+(y*(s*h/8)+(w/16));
+			float partDir = atan2(pY-oY, pX-oX); //Direction from object to particle location
+			int dx = pX - oX;
+			int dy = pY - oY;
+			float pointDist = sqrt(dx*dx+dy*dy);
+
+			float positionAngle = partDir+o->getRadAngle();
+
+			Particle part;
+			part.init(renderer, //Renderer
+			o->getTexture(), //texture (as image)
+			rect, //srcRect (Rectangle defining area of textur to use)
+			oX + pointDist*cos(positionAngle), //Start x
+			oY + pointDist*sin(positionAngle), //Start y
+			30, //Frame duration (60fps)
+			positionAngle, //Moving direction (deg)
+			s/3, //Moving speed (pixels per second)
+			1, //Start alpha
+			0, //End alpha
+			s, //Start scale
+			0, //End scale
+			a, //Start angle
+			5 //Angle speed (deg)
+			);
+			addParticle(part);
 		}
 	}
 }

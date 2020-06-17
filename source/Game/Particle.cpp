@@ -21,9 +21,9 @@ void Particle::init(SDL_Renderer* r, TextureManager* tm, string path, float sx, 
     init(r, tm, path, sx, sy, dur, 0, 0, sa, ea, ss, es, as);
 }
 
-void Particle::void init(SDL_Renderer* r, image i, SDL_Rect tRect, float sx, float sy, int dur, float dir, float s, float sa, float ea, float ss, float es, float as){
+void Particle::init(SDL_Renderer* r, image i, SDL_Rect tRect, float sx, float sy, int dur, float dir, float s, float sa, float ea, float ss, float es, float a, float as){
     renderer   = r;
-    sprite     = tm->getTexture(path);
+    sprite     = i;
     duration   = dur;
     direction  = dir;
     speed      = s;
@@ -34,6 +34,7 @@ void Particle::void init(SDL_Renderer* r, image i, SDL_Rect tRect, float sx, flo
     angleSpeed = as;
     x          = sx;
     y          = sy;
+    angle      = a;
     texRect    = tRect;
 }
 
@@ -47,7 +48,7 @@ void Particle::update(){
 }
 
 void Particle::draw(){
-    renderTextureScaledRotatedAlpha(renderer, sprite, x, y, scale, angle, alpha, tRect);
+    renderTextureScaledRotatedAlpha(renderer, sprite, x, y, scale, angle, alpha, &texRect);
 }
 
 bool Particle::isDead(){

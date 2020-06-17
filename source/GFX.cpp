@@ -1,6 +1,6 @@
 #include "GFX.h"
 
-void renderTexture(SDL_Renderer* renderer, image tex, int destX, int destY, SDL_Rect srcRect = NULL){
+void renderTexture(SDL_Renderer* renderer, image tex, int destX, int destY){
     int w, h;
     SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
@@ -12,7 +12,7 @@ void renderTexture(SDL_Renderer* renderer, image tex, int destX, int destY, SDL_
 	SDL_RenderCopy(renderer, tex.texture, NULL, &dest);
 }
 
-void renderTextureRotated(SDL_Renderer* renderer, image tex, int destX, int destY, double rotation, SDL_Rect srcRect = NULL){
+void renderTextureRotated(SDL_Renderer* renderer, image tex, int destX, int destY, double rotation){
     int w, h;
     SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
@@ -24,7 +24,7 @@ void renderTextureRotated(SDL_Renderer* renderer, image tex, int destX, int dest
 	SDL_RenderCopyEx(renderer, tex.texture, NULL, &dest, rotation, NULL, SDL_FLIP_NONE);
 }
 
-void renderTextureScaled(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, SDL_Rect srcRect = NULL){
+void renderTextureScaled(SDL_Renderer* renderer, image tex, int destX, int destY, double scale){
     int w, h;
     SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
@@ -36,33 +36,43 @@ void renderTextureScaled(SDL_Renderer* renderer, image tex, int destX, int destY
 	SDL_RenderCopy(renderer, tex.texture, NULL, &dest);
 }
 
-void renderTextureScaledRotated(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, double rotation, SDL_Rect srcRect = NULL){	
+void renderTextureScaledRotated(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, double rotation){	
     int w, h;
     SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
-	dest.x = destX-w/2;
-	dest.y = destY-h/2;
+	dest.x = destX-(w*scale)/2;
+	dest.y = destY-(h*scale)/2;
 	dest.w = round(w*scale);
 	dest.h = round(h*scale);
 
 	SDL_RenderCopyEx(renderer, tex.texture, NULL, &dest, rotation, NULL, SDL_FLIP_NONE);
 }
 
-void renderTextureScaledRotatedAlpha(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, double rotation, double alpha, SDL_Rect srcRect = NULL){
-	int w, h;
-    SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
+void renderTextureScaledRotatedAlpha(SDL_Renderer* renderer, image tex, int destX, int destY, double scale, double rotation, double alpha, SDL_Rect* srcRect = nullptr){
 	SDL_Rect dest;
-	dest.x = destX-w/2;
-	dest.y = destY-h/2;
-	dest.w = round(w*scale);
-	dest.h = round(h*scale);
+	if (srcRect == nullptr){
+		//Destination needs to have same size as texture
+		int w, h;
+    	SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
+
+		dest.x = destX-(w*scale)/2;
+		dest.y = destY-(h*scale)/2;
+		dest.w = round(w*scale);
+		dest.h = round(h*scale);
+	}else{
+		dest.x = destX-srcRect->w*scale/2;
+		dest.y = destY-srcRect->h*scale/2;
+		dest.w = round(srcRect->w*scale);
+		dest.h = round(srcRect->h*scale);
+	}
 
 	SDL_SetTextureAlphaMod(tex.texture, round(alpha*255));
 
-	SDL_RenderCopyEx(renderer, tex.texture, NULL, &dest, rotation, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, tex.texture, srcRect, &dest, rotation, NULL, SDL_FLIP_NONE);
+	SDL_SetTextureAlphaMod(tex.texture, 255);
 }
 
-void renderTextureCentered(SDL_Renderer* renderer, image tex, int destX, int destY, SDL_Rect srcRect = NULL){
+void renderTextureCentered(SDL_Renderer* renderer, image tex, int destX, int destY){
 	int w, h;
     SDL_QueryTexture(tex.texture, NULL, NULL, &w, &h);
 	SDL_Rect dest;
