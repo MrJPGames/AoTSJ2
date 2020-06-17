@@ -21,10 +21,9 @@ void Object::init(SDL_Renderer* r, TextureManager* tm , float s, float sx, float
     SDL_QueryTexture(sprite.texture, NULL, NULL, &w, NULL);
 	radius = w >> 1;
 
-	//"Fix" scale (higher resolution sprites don't become too masive)
-	while (scale*w > 200){
-		scale-=5;
-	}
+	//Make every sprite act like it's a 16x16 sprite
+	float widthScale = w/16;
+	scale = scale/widthScale;
 
 	x = sx;
 	y = sy;
