@@ -1,12 +1,14 @@
 #include "Game/Object.h"
-#include <SDL2/SDL2_gfxPrimitives.h>
 
-Object::Object(){}
+Object::Object(){
+	scoreValue = 1000;
+	spriteDir = "romfs:/assets/actors/objects/";
+}
 
 void Object::init(SDL_Renderer* r, TextureManager* tm , float s, float sx, float sy, float tx, float ty){
 	renderer = r;
 
-	sprite = tm->getRandomTexture("romfs:/assets/actors/objects/");
+	sprite = tm->getRandomTexture(spriteDir);
 
 	float dx = sx-tx;
 	float dy = sy-ty;
@@ -22,7 +24,7 @@ void Object::init(SDL_Renderer* r, TextureManager* tm , float s, float sx, float
 	radius = w >> 1;
 
 	//Make every sprite act like it's a 16x16 sprite
-	float widthScale = w/16;
+	float widthScale = w/16.0f;
 	scale = scale/widthScale;
 
 	x = sx;
@@ -75,8 +77,10 @@ void Object::kill(){
 	alive = false;
 }
 
+int Object::getValue(){
+	return scoreValue;
+}
+
 void Object::draw(){
-	Uint32 circleColour = 0xFF0000FF;
-	filledCircleColor(renderer, x, y, scale*radius, circleColour);
 	renderTextureScaledRotated(renderer, sprite, x, y, scale, angle);
 }

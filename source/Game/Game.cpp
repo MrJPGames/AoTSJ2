@@ -23,8 +23,8 @@ void Game::init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp){
 }
 
 void Game::draw(){
-	drawObjects();
 	drawParticles();
+	drawObjects();
 	drawBullets();
 
 	//Player on top
@@ -32,14 +32,14 @@ void Game::draw(){
 
 	drawHUD();
 
-	if (objects != NULL)
-		renderColorText(renderer, font, 40, 200, "Object size: " + to_string(objects->o.getSize()), {0, 255, 0});
+	if (particles != NULL)
+		renderColorText(renderer, font, 40, 200, "Particles exist", {0, 255, 0});
 }
 
 void Game::drawObjects(){
 	ObjectNode *ptr = objects;
 	while (ptr != NULL){
-		ptr->o.draw();
+		ptr->o->draw();
 		ptr = ptr->next;
 	}
 }
@@ -99,9 +99,9 @@ void Game::update(){
 void Game::checkObjectBulletCollision(){
 	ObjectNode *ptr = objects;
 	while (ptr != NULL){
-		float ox = ptr->o.getX();
-		float oy = ptr->o.getY();
-		float os = ptr->o.getSize();
+		float ox = ptr->o->getX();
+		float oy = ptr->o->getY();
+		float os = ptr->o->getSize();
 
 		BulletNode *bPtr = bullets;
 		while (bPtr != NULL){
@@ -109,9 +109,9 @@ void Game::checkObjectBulletCollision(){
 			float by = bPtr->b.getY();
 			float bs = bPtr->b.getSize();
 			if ((ox-bx) * (ox-bx) + (oy-by) * (oy-by) < (os+bs) * (os+bs)){
-				objectExplodes(&ptr->o);
+				objectExplodes(ptr->o);
 				bPtr->b.kill();
-				ptr->o.kill();
+				ptr->o->kill();
 				score += 1000;
 				bPtr = NULL;
 				break;
@@ -177,9 +177,10 @@ void Game::updateObjects(){
 	ObjectNode *ptr = objects;
 	ObjectNode *prev = NULL;
 	while (ptr != NULL){
-		ptr->o.update();
-		if (ptr->o.isDead()){
+		ptr->o->update();
+		if (ptr->o->isDead()){
 			ObjectNode *next = ptr->next;
+			delete ptr->o;
 			delete ptr;
 			if (prev != NULL)
 				prev->next = next;
@@ -187,6 +188,12 @@ void Game::updateObjects(){
 				objects = next;
 			ptr = next;
 		}else{
+			//If not dead, check if Object is of type SpecialObject
+			if (typeid(*(ptr->o)) == typeid(SpecialObject)){
+				Particle part;
+		  		part.initDir(renderer, textureManager, "romfs:/assets/particles/rainbow_trail/", ptr->o->getX(),ptr->o->getY(), 30, (float)(rand()%360*PI/180.0f), (rand()%3+1), 2, 0, 16+(rand()%16), 0, rand() % 10);
+				addParticle(part);
+			}
 			prev = ptr;
 			ptr = ptr->next;
 		}
@@ -254,8 +261,13 @@ void Game::addObject(){
 			x = rand() % 1920;
 			y = 1080;
 	}
-	Object obj;
-	obj.init(renderer, textureManager, 3, x, y, player.getX(), player.getY());
+	Object* obj;
+	if (rand() % 64 == 0){ //1 in 64
+		obj = new SpecialObject;
+	}else{
+		obj = new Object;
+	}
+	obj->init(renderer, textureManager, 3, x, y, player.getX(), player.getY());
 
 
 	ObjectNode *o = new ObjectNode;

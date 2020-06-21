@@ -17,6 +17,21 @@ void Particle::init(SDL_Renderer* r, TextureManager* tm, string path, float sx, 
     y          = sy;
 }
 
+void Particle::initDir(SDL_Renderer* r, TextureManager* tm, string path, float sx, float sy, int dur, float dir, float s, float sa, float ea, float ss, float es, float as){
+    renderer   = r;
+    sprite     = tm->getRandomTexture(path);
+    duration   = dur;
+    direction  = dir;
+    speed      = s;
+    startAlpha = sa;
+    endAlpha   = ea;
+    startScale = ss;
+    endScale   = es;
+    angleSpeed = as;
+    x          = sx;
+    y          = sy;
+}
+
 void Particle::init(SDL_Renderer* r, TextureManager* tm, string path, float sx, float sy, int dur, float sa, float ea, float ss, float es, float as){
     init(r, tm, path, sx, sy, dur, 0, 0, sa, ea, ss, es, as);
 }
@@ -36,6 +51,7 @@ void Particle::init(SDL_Renderer* r, image i, SDL_Rect tRect, float sx, float sy
     y          = sy;
     angle      = a;
     texRect    = tRect;
+    useTexRect = true;
 }
 
 void Particle::update(){
@@ -48,7 +64,11 @@ void Particle::update(){
 }
 
 void Particle::draw(){
-    renderTextureScaledRotatedAlpha(renderer, sprite, x, y, scale, angle, alpha, &texRect);
+    if (useTexRect){
+        renderTextureScaledRotatedAlpha(renderer, sprite, x, y, scale, angle, alpha, &texRect);
+    }else{
+        renderTextureScaledRotatedAlpha(renderer, sprite, x, y, scale, angle, alpha, NULL);
+    }
 }
 
 bool Particle::isDead(){

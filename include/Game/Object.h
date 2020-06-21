@@ -21,7 +21,9 @@ class Object{
 		float getAngle();
 		float getRadAngle();
 		void kill();
-	private:
+		int getValue();
+    	virtual ~Object(){}
+	protected:
 		SDL_Renderer* renderer;
 		float x = 960, y = 540, speed = 12, angle = 0, direction = 0;
 		image sprite;
@@ -30,6 +32,8 @@ class Object{
 		float angle_change=0;
 		float scale = 0;
 		int radius = 0;
+		int scoreValue = 0;
+		string spriteDir = "romfs:/";
 };
 
 #endif

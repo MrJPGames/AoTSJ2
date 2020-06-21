@@ -11,6 +11,7 @@
 
 #include "Game/Player.h"
 #include "Game/Object.h"
+#include "Game/SpecialObject.h"
 #include "Game/Bullet.h"
 #include "Game/Particle.h"
 
@@ -23,7 +24,7 @@ using namespace std;
 #define SHOOT_SPEED 10
 
 struct ObjectNode{
-	Object o;
+	Object* o;
 	ObjectNode *next;
 };
 
