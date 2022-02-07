@@ -10,7 +10,7 @@
 class Player{
 	public:
 		Player();
-		void init(SDL_Renderer* renderer);
+		void init(SDL_Renderer* renderer, PadState* padPtr);
 		void update();
 		void draw();
 		float getX();
@@ -26,7 +26,8 @@ class Player{
 		float x = 960, y = 540, playerSpeed = 12, angle = 0;
 		float vx = 0, vy = 0, gvx = 0, gvy = 0; //Velocity and goal velocity
 		int upgrades[UPGRADE_COUNT];
-		JoystickPosition jPosL, jPosR;
+		HidAnalogStickState jPosL, jPosR;
+		PadState* pad;
 		image sprite;
 		SDL_Surface* surface;
 		TTF_Font* debug;

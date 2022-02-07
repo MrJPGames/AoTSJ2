@@ -4,7 +4,7 @@ Player::Player(){
 
 }
 
-void Player::init(SDL_Renderer* r){
+void Player::init(SDL_Renderer* r, PadState* padPtr){
 	renderer = r;
 
 	surface = IMG_Load("romfs:/assets/actors/players/main.png");
@@ -12,11 +12,13 @@ void Player::init(SDL_Renderer* r){
 	SDL_FreeSurface(surface);
 
 	debug = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 30);
+	
+	pad = padPtr;
 }
 
 void Player::update(){
-	hidJoystickRead(&jPosR, CONTROLLER_P1_AUTO, JOYSTICK_RIGHT);
-	hidJoystickRead(&jPosL, CONTROLLER_P1_AUTO, JOYSTICK_LEFT);
+	jPosL = padGetStickPos(pad, 0);
+	jPosR = padGetStickPos(pad, 1);
 	
 	updateMovement();
 	updateAim();
@@ -24,8 +26,8 @@ void Player::update(){
 
 void Player::updateMovement(){
 	//Current controller state is the goal for velocity
-	gvx = playerSpeed*(jPosL.dx/32768.0f);
-	gvy = playerSpeed*(jPosL.dy/32768.0f);
+	gvx = playerSpeed*(jPosL.x/32768.0f);
+	gvy = playerSpeed*(jPosL.y/32768.0f);
 
 	//Change actual velocity towards goal
 	vx += (gvx-vx)/10.0f;
@@ -46,8 +48,8 @@ void Player::updateMovement(){
 }
 
 void Player::updateAim(){
-	if (jPosR.dx != 0 || jPosR.dy != 0)
-		angle=atan2(-jPosR.dy, jPosR.dx);
+	if (jPosR.x != 0 || jPosR.y != 0)
+		angle=atan2(-jPosR.y, jPosR.x);
 }
 
 float Player::getAim(){

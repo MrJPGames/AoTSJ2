@@ -1,13 +1,12 @@
 #include "Game/Game.h"
 
 Game::Game(){
-
 }
 
-void Game::init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp){
+void Game::init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp, PadState* padPtr){
 	srand(time(0));
 
-	player.init(r);
+	player.init(r, padPtr);
 
 	renderer = r;
 
@@ -20,6 +19,8 @@ void Game::init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp){
 
 	audioPlayer = mp;
 	audioPlayer->playMusic("romfs:/assets/music/placeholder.mp3");
+	
+	pad = padPtr;
 }
 
 void Game::draw(){
@@ -65,8 +66,8 @@ void Game::drawHUD(){
 }
 
 void Game::update(){
-	u32 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-	u32 kHeld = hidKeysHeld(CONTROLLER_P1_AUTO);
+	u32 kDown = padGetButtonsDown(pad);
+	u32 kHeld = padGetButtons(pad);
 
 	player.update();
 	updateObjects();
@@ -87,12 +88,12 @@ void Game::update(){
 	}
 
 	//Shooting logic
-	if (kDown & KEY_ZR || kDown & KEY_ZL){
+	if (kDown & HidNpadButton_ZR || kDown & HidNpadButton_ZL){
 		shootTimer = 0;
 		addBullet();
 	}
 	shootTimer++;
-	if ((kHeld & KEY_ZR || kHeld & KEY_ZL) && (shootTimer % SHOOT_SPEED) == 0)
+	if ((kHeld & HidNpadButton_ZR || kHeld & HidNpadButton_ZL) && (shootTimer % SHOOT_SPEED) == 0)
 		addBullet();
 }
 

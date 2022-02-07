@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_TTF.h>
+#include <SDL2/SDL_ttf.h>
 #include "GFX.h"
 #include "TextureManager.h"
 #include "AudioPlayer.h"
@@ -41,7 +41,7 @@ struct ParticleNode{
 class Game{
 	public:
 		Game();
-		void init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp);
+		void init(SDL_Renderer* r, TextureManager* t, AudioPlayer* mp, PadState* padPtr);
 		void update();
 		void draw();
 	private:
@@ -60,6 +60,7 @@ class Game{
 		void objectExplodes(Object* o);
 
 		SDL_Renderer* renderer;
+		PadState* pad;
 		//FontManager fontManager;
 		Player player;
 		ObjectNode *objects = NULL;

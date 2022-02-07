@@ -4,7 +4,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_TTF.h>
+#include <SDL2/SDL_ttf.h>
 #include "GFX.h"
 #include "TextureManager.h"
 #include "AudioPlayer.h"
@@ -14,8 +14,9 @@
 //Sets the current mode (state) of the game
 int mode = TITL_STATE;
 
-touchPosition Stylus;
+HidTouchScreenState state={0};
 u32 kDown;
+PadState pad;
 
 image background;
 
@@ -47,9 +48,9 @@ void draw(){
 }
 
 void update(){
-	hidScanInput();
-	kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-	hidTouchRead(&Stylus, 0);
+	padUpdate(&pad);
+	kDown = padGetButtonsDown(&pad);
+	hidGetTouchScreenStates(&state, 1);
 
 	game.update();
 }
@@ -57,6 +58,11 @@ void update(){
 
 int main(int argc, char **argv)
 {
+	padConfigureInput(8, HidNpadStyleSet_NpadStandard);
+	padInitializeDefault(&pad);
+	
+	hidInitializeTouchScreen();
+
 	romfsInit();
 	
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -81,7 +87,7 @@ int main(int argc, char **argv)
 	ap.loadWAV("romfs:/assets/sfx/shoot.wav");
 	ap.loadWAV("romfs:/assets/sfx/explosion.wav");
 
-	game.init(renderer, &texManager, &ap);
+	game.init(renderer, &texManager, &ap, &pad);
 
 	font = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 48);
 	bigFont = TTF_OpenFont("romfs:/fonts/OpenSans.ttf", 72);
@@ -90,7 +96,7 @@ int main(int argc, char **argv)
 	{
 		update();
 		draw();
-		if (kDown & KEY_PLUS)
+		if (kDown & HidNpadButton_Plus)
 			break;
 	}
 
